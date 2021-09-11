@@ -19,6 +19,7 @@ class CreateFeedsTable extends Migration
             $table->string('url');
             $table->string('title');
             $table->text('description');
+            $table->string('color');
             $table->timestamp('checked_at')->nullable();
             $table->timestamps();
         });

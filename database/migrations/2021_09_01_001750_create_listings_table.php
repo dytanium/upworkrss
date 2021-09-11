@@ -20,7 +20,9 @@ class CreateListingsTable extends Migration
             $table->string('title');
             $table->string('url');
             $table->text('description');
+            $table->longtext('content');
             $table->string('status');
+            $table->timestamp('local_datetime');
             $table->timestamps();
         });
     }
