@@ -3,6 +3,7 @@
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\User\Dashboard;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\User\Feed\Create as FeedCreate;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -13,6 +14,8 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
+
+    Route::get('/feeds/create', FeedCreate::class)->name('feed.create');
 
     // Route::get('/dashboard', function () {
     //     return view('dashboard');

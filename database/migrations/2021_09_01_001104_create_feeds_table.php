@@ -18,7 +18,7 @@ class CreateFeedsTable extends Migration
             $table->foreignId('user_id');
             $table->string('url');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('color');
             $table->timestamp('checked_at')->nullable();
             $table->timestamps();

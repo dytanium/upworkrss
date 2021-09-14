@@ -1,4 +1,5 @@
 @props([
+    'type' => 'text',
     'id' => null,
     'label' => null,
 ])
@@ -7,7 +8,11 @@
     <x-input.label for="{{ $id }}" label="{{ $label }}" />
 
     <div class="mt-1">
-        <x-input.text {{ $attributes }} :hasError="$errors->has($id)" />
+        @if ($type === 'text' || $type === 'email' || $type === 'password')
+            <x-input.text {{ $attributes }} type="{{ $type }}" :hasError="$errors->has($id)" />
+        @elseif ($type === 'textarea')
+            <x-input.textarea {{ $attributes }} />
+        @endif
     </div>
 
     @error($id) <div class="mt-1 text-red-500 text-sm">{{ $message }}</div> @enderror

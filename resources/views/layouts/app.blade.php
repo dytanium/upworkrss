@@ -8,9 +8,14 @@
             <livewire:user.search />
 
             <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none">
+
+                @include('components.message')
+
                 {{ $slot }}
             </main>
         </div>
+
+        <x-notification />
     </div>
 </x-layouts.base>
 

@@ -37,6 +37,8 @@
 [x] 15. Refactor the buttons!
 [x] 16. Bring over modal code and prepare it to view a listing in full detail
 17. Refactor dashboard listings with something from here: https://tailwindui.com/components/application-ui/lists/stacked-lists
+18. On delete, animate the row being removed?
+
 
 
 ### Sidebar
@@ -56,14 +58,20 @@
 
 ## Feeds
 ### Create
-1. New component and route
-2. What needs to be collected?
-3. Create the form - placeholder for color? or a dropdown?
-4. Create the backend code to save feed
-5. Finish form, ensure the color works properly
-6. Ensure new feed shows up on dashboard
-7. Pull in a notification component
-8. When saving a feed, send a notification
+[x] 1. New component and route
+[x] 2. What needs to be collected?
+[x] 3. Create the form - for color: https://tailwindui.com/components/application-ui/forms/select-menus
+[x] 4. Create the backend code to save feed
+[x] 5. Finish form, ensure the color works properly
+[x] 6. Ensure new feed shows up on dashboard
+[x] 7. Pull in a notification component
+[x] 8. When saving a feed, send a notification
+[x] 9. Cleanup the save code - use a relationship
+[x] 10. Cleanup the HTML! see if we can get the dropdown status-select to work - we want to see the colors!
+
+### View
+[x] 1. New component and route
+2.
 
 # Someday
 1. On main sidebar, add last updated to each feed

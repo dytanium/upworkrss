@@ -1,10 +1,11 @@
 @props([
+    'type' => 'text',
     'hasError' => false,
 ])
 
 <input
     {{ $attributes }}
-    type="text"
+    type="{{ $type }}"
     class="
         appearance-none
         block
@@ -22,4 +23,4 @@
         sm:text-sm
         {{ $hasError ? 'border-red-500' : 'border-gray-300' }}
     "
-></input>
+> </input>

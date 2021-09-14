@@ -31,7 +31,7 @@
                                 </span>
                             </span>
 
-                            <x-heroicon-s-selector class="flex-shrink-0 text-gray-400 group-hover:text-gray-500"/>
+                            <x-heroicon-s-selector class="text-gray-400 group-hover:text-gray-500"/>
                         </span>
                     </button>
                 </div>
@@ -64,27 +64,36 @@
             <!-- Navigation -->
             <nav class="px-3 mt-6">
                 <div class="space-y-1">
-                    <x-nav-link href="#" :active="request()->routeIs('dashboard')">
-                        <x-heroicon-o-collection class="flex-shrink-0 text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        <x-heroicon-o-collection class="text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
                         Listings
                     </x-nav-link>
 
                     <x-nav-link href="#" :active="request()->routeIs('todo')">
-                        <x-heroicon-o-rss class="flex-shrink-0 text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
+                        <x-heroicon-o-rss class="text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
                         Feeds
                     </x-nav-link>
 
                     <x-nav-link href="#" :active="request()->routeIs('todo')">
-                        <x-heroicon-o-briefcase class="flex-shrink-0 text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
+                        <x-heroicon-o-briefcase class="text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
                         Proposals
                     </x-nav-link>
                 </div>
 
                 <div class="mt-8">
                     <!-- feeds -->
-                    <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Feed Legend
-                    </h3>
+                    <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
+
+                        <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Feeds
+                        </h3>
+
+                        <div>
+                            <x-link href="{{ route('feed.create') }} ">
+                                <x-heroicon-o-plus-sm/>
+                            </x-link>
+                        </div>
+                    </div>
 
                     <div class="mt-1 space-y-1" role="group">
                         @forelse ($feeds as $feed)
@@ -99,7 +108,7 @@
                             </a>
                         @empty
                             <span class="text-red-400 text-sm ml-2">
-                                <x-heroicon-o-emoji-sad class="flex-shrink-0 mr-1"/>
+                                <x-heroicon-o-emoji-sad class="mr-1"/>
                                 No feeds
                             </span>
                         @endforelse
