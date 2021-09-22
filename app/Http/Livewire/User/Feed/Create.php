@@ -14,7 +14,7 @@ class Create extends Component
 
     protected $rules = [
         'title' => 'required|max:255',
-        'url' => 'required|max:255|url',
+        'url' => 'required|url',
         'description' => 'nullable',
         'color' => 'required',
     ];

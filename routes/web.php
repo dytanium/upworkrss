@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Listing;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\User\Dashboard;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/feeds/create', FeedCreate::class)->name('feed.create');
 
+    Route::get('/p', function () {
+
+        // fetch first listing
+        $listing = Listing::find(6);
+
+        // echo $listing->content;
+
+        dump($listing->parseProperties());
+
+        echo $listing->content;
+    });
     // Route::get('/dashboard', function () {
     //     return view('dashboard');
     // })->middleware(['auth'])->name('dashboard');

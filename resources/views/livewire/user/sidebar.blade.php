@@ -95,23 +95,40 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 space-y-1" role="group">
-                        @forelse ($feeds as $feed)
-                            <a
-                                href="#"
-                                class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
-                            >
-                                <span class="w-2.5 h-2.5 mr-4 {{ $feed->color }} rounded-full" aria-hidden="true"></span>
-                                <span class="truncate">
-                                    {{ $feed->title }}
-                                </span>
-                            </a>
-                        @empty
-                            <span class="text-red-400 text-sm ml-2">
-                                <x-heroicon-o-emoji-sad class="mr-1"/>
-                                No feeds
-                            </span>
-                        @endforelse
+                    <div class="mt-1" role="group">
+
+                        <ul role="list" class="mt-3 grid grid-cols-1 gap-3 sm:gap-3">
+                            @forelse ($feeds as $feed)
+                                <li class="col-span-1 flex shadow-sm rounded-md">
+                                    <div class="flex-shrink-0 flex items-center justify-center w-6 {{ $feed->color }} text-white text-sm font-medium rounded-l-md">
+                                    </div>
+
+                                    <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                                        <div class="flex-1 px-4 py-2 text-sm truncate">
+                                            <a href="#" class="text-gray-900 font-medium hover:text-gray-600">{{ $feed->title }}</a>
+                                            <p class="text-gray-500 text-xs">Checked: {{ $feed->lastChecked() }}</p>
+                                        </div>
+
+                                        <div class="flex-shrink-0 pr-2">
+                                            <button wire:click="refresh({{ $feed->id }})" type="button" class="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none">
+                                                <span wire:loading.remove wire:target="refresh({{ $feed->id }})">
+                                                    <x-heroicon-o-refresh class="flex-shrink-0 inline"/>
+                                                </span>
+
+                                                <span wire:loading wire:target="refresh({{ $feed->id }})">
+                                                    <x-heroicon-o-refresh class="flex-shrink-0 inline animate-spin text-blue-600"/>.
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            @empty
+                                <li class="col-span-1 ml-3">
+                                    <x-heroicon-o-emoji-sad class="inline mr-1"/>
+                                    No feeds
+                                </li>
+                            @endforelse
+                        </ul>
                     </div>
                 </div>
             </nav>

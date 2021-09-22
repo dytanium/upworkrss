@@ -19,7 +19,11 @@ class CreateListingsTable extends Migration
             $table->foreignId('user_id');
             $table->string('title');
             $table->string('url');
-            $table->text('description');
+            $table->string('category')->nullable();
+            $table->string('country')->nullable();
+            $table->json('skills')->nullable();
+            $table->json('budget')->nullable();
+            $table->longtext('description')->nullable();
             $table->longtext('content');
             $table->string('status');
             $table->timestamp('local_datetime');

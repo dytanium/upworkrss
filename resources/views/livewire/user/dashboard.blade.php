@@ -1,20 +1,9 @@
-<div class="hidden mt-8 sm:block">
+<div class="block">
     <div class="align-middle inline-block min-w-full border-b border-gray-200">
         <table class="min-w-full">
-            <thead>
-                <tr class="border-t border-gray-200">
-                    <th class="pr-2 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <span class="lg:pl-2">Title</span>
-                    </th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date/Time
-                    </th>
-                </tr>
-            </thead>
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse ($listings as $listing)
-                    <tr class="hover:bg-blue-50">
+                    <tr wire:loading.class.delay="opacity-50" class="hover:bg-blue-50">
                         <td class="pr-2">
                             <div class="relative flex justify-end items-center">
                                 <button
@@ -41,14 +30,38 @@
                                     <p>
                                         {{ $listing->title }}
                                     </p>
-                                    <p class="text-sm text-gray-500 truncate">{{ $listing->description }}</p>
+                                    <p class="text-sm text-gray-500 truncate">{{ strip_tags($listing->description) }}</p>
+                                    <p class="text-sm mt-1">
+                                        @if (isset($listing->budget['type']) && $listing->budget['type'] === 'fixed')
+                                            <x-badge color="dark-green">
+                                                Fixed: {{ $listing->budget['rate'] }}
+                                            </x-badge>
+                                        @elseif (isset($listing->budget['type']) && $listing->budget['type'] === 'hourly')
+                                            <x-badge color="green">
+                                                Hourly: {{ $listing->budget['rate'] }}
+                                            </x-badge>
+                                        @endif
+
+                                        <x-badge color="indigo">
+                                            {{ $listing->category }}
+                                        </x-badge>
+
+                                        <x-badge color="yellow">
+                                            {{ $listing->country }}
+                                        </x-badge>
+
+                                        @foreach ($listing->skills as $skill)
+                                            <x-badge>
+                                                {{ $skill }}
+                                            </x-badge>
+                                        @endforeach
+                                    </p>
                                 </a>
                             </div>
                         </td>
                         <td class="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
                             {{ $listing->local_datetime->diffForHumans() }}
                         </td>
-
                     </tr>
                 @empty
                     <tr>
@@ -65,7 +78,20 @@
             <x-slot name="title">{{ $viewListing->title }}</x-slot>
 
             <x-slot name="content">
-               {{ $viewListing->description }}
+                <x-badge color="green">
+                    {{-- Posted {{ $viewListing->local_datetime->diffForHumans() }} ({{ $viewListing->local_datetime->format('F j, Y') }} --}}
+                </x-badge>
+
+                <p class="text-sm text-gray-800 mt-2">
+                    {!! $viewListing->description !!}
+                </p>
+
+                <p class="text-sm">
+
+
+                </p>
+
+
             </x-slot>
 
             <x-slot name="footer">

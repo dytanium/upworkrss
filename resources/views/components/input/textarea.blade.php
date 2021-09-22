@@ -1,4 +1,5 @@
 <textarea
+    rows="4"
     {!! $attributes->merge(['class' => '
         shadow-sm
         block

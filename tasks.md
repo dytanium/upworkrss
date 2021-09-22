@@ -1,10 +1,17 @@
+# Feed Job
+1. Create a new console command we can run manually at first
+2. Have it pick a certain feed -> maybe one we create via a feeder
+3. Ensure it can select the feed from the DB and has the URL to parse
+4. Now what?
+
+
 # Layout
-1. Find layout from TailwindUI
-2. Implement proper styling, fonts, etc for TailwindUI
-3. Create app shell using selected layout
-4. Figure out logged-in menu
-5. Begin breaking into blade components
-6. Start with login page and livewire component
+[x] 1. Find layout from TailwindUI
+[x] 2. Implement proper styling, fonts, etc for TailwindUI
+[x] 3. Create app shell using selected layout
+[x] 4. Figure out logged-in menu
+[x] 5. Begin breaking into blade components
+[x] 6. Start with login page and livewire component
 
 
 ## Login
@@ -37,7 +44,7 @@
 [x] 15. Refactor the buttons!
 [x] 16. Bring over modal code and prepare it to view a listing in full detail
 17. Refactor dashboard listings with something from here: https://tailwindui.com/components/application-ui/lists/stacked-lists
-18. On delete, animate the row being removed?
+18. On delete, animate the row being removed
 
 
 

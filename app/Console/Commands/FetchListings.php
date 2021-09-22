@@ -1,34 +1,57 @@
 <?php
 
-namespace App\Http\Livewire\User;
+namespace App\Console\Commands;
 
 use App\Models\Feed;
 use App\Models\Listing;
-use Livewire\Component;
 use App\Actions\FeedParser;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Console\Command;
 use Vedmant\FeedReader\Facades\FeedReader;
 
-class Sidebar extends Component
+class FetchListings extends Command
 {
-    public function logout(Request $request)
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'feed:fetch {feed}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Fetch new listings from a feed';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login');
+        parent::__construct();
     }
 
-    public function refresh(Feed $feed)
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
     {
+        $feed = Feed::find($this->argument('feed'));
+
+        $this->info("Fetching new listings for: {$feed->title}...");
+
         $feedReader = FeedReader::read($feed->url);
 
         foreach($feedReader->get_items() as $listing) {
+
+            $this->info("Parsing: {$listing->get_title()}...");
+
             $properties = (new FeedParser($listing->get_content()))->parse();
 
             $listing = $feed->listings()->firstOrcreate([
@@ -45,17 +68,10 @@ class Sidebar extends Component
                 'country' => $properties['country'],
                 'skills' => $properties['skills'],
             ]);
+
+            $this->info("All done!");
         }
 
-        $feed->update([
-            'checked_at' => now(),
-        ]);
-    }
-
-    public function render()
-    {
-        return view('livewire.user.sidebar', [
-            'feeds' => auth()->user()->feeds,
-        ]);
+        return 0;
     }
 }

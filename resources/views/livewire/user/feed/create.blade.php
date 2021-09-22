@@ -71,7 +71,7 @@
                         <div class="py-1" role="none">
                             @foreach ($feedColors as $id => $color)
                                 <a
-                                    @click="color = '{{ $color }}'; colorId = '{{ $id }}'; open = ! open"
+                                    @click="color = '{{ $color }}'; colorId = '{{ $id }}'; open = false"
                                     href="#"
                                     class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
                                 >

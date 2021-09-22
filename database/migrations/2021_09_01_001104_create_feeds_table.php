@@ -16,7 +16,7 @@ class CreateFeedsTable extends Migration
         Schema::create('feeds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('url');
+            $table->text('url');
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('color');

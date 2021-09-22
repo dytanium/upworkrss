@@ -11,9 +11,27 @@ class feed extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'checked_at' => 'datetime',
+    ];
+
+    public function listings()
+    {
+        return $this->hasMany(Listing::class);
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function lastChecked()
+    {
+        if (! $this->checked_at) {
+            return 'Never';
+        }
+
+        return $this->checked_at->diffForHumans();
     }
 
     public static function colors()

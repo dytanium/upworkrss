@@ -24,7 +24,7 @@
                 </span>
 
                 <span wire:loading>
-                    <x-heroicon-o-refresh class="animate-spin mr-2"/>Verifying Identity...
+                    <x-heroicon-o-refresh class="inline animate-spin mr-2"/>Verifying Identity...
                 </span>
             </x-button>
         </div>
