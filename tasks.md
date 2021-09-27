@@ -1,8 +1,38 @@
+# Next Steps
+* Echo
+* Refactor dashboard
+* Filtering
+[x] * For the feed list, setup JS so that the 'Checked at' auto updates every x seconds (or minutes) - done with polling
+
+# Setup Echo
+* Setup a component on the front that adds an alert bar when there are new listings with an option to refresh. Don't refresh the entire dashboard component immediately - trap the number of new listings within this alert, then allow the user to refresh when needed
+* When the background job goes off, communicate with the frontend somehow and update the 'last refreshed' date of the feed.
+
+# Dashboard
+* When clicking on the visit button, set the listing status to something other than NEW - so it hides the listing when browsing
+* Begin to think about filter - to start with, add a feed filter, then a status filter
+[x] * Pagination
+[x] * Move color dot to left side - no
+[x] * Add another button to 'archive' or something? same function as visit, but without opening a new tab
+* Redesign the listing table. Need to scrap the HREF covering the title and description. I like the idea of the modal, so work on that too
+*  Work on listing modal
+    * Add left/right arrors to the listing modal
+[x] * Add a 'totals' to the top of the listings
+[x] * Add a 'out of' to the top, this will be the listing currently on display out of the total number of the filter(s)
+* Refactor dashboard listings with something from here: https://tailwindui.com/components/application-ui/lists/stacked-lists
+* On delete, animate the row being removed
+* on pagination click, return to the top of the page
+
+[x] 19. Refactor sidebar component - add Feed component. The refresh should be within the Feed livewire component
+
+# Write Tests
+* Start with Login
+
 # Feed Job
-1. Create a new console command we can run manually at first
-2. Have it pick a certain feed -> maybe one we create via a feeder
-3. Ensure it can select the feed from the DB and has the URL to parse
-4. Now what?
+[x] 1. Create a new console command we can run manually at first
+[x] 2. Have it pick a certain feed -> maybe one we create via a feeder
+[x] 3. Ensure it can select the feed from the DB and has the URL to parse
+[x] 4. Now what?
 
 
 # Layout
@@ -43,9 +73,10 @@
 [x] 14. Format the date/time
 [x] 15. Refactor the buttons!
 [x] 16. Bring over modal code and prepare it to view a listing in full detail
-17. Refactor dashboard listings with something from here: https://tailwindui.com/components/application-ui/lists/stacked-lists
-18. On delete, animate the row being removed
-
+[x] 17. How to refresh the listing table when clicking on one of the feeds?
+[x] 18. How to do polling -> refresh each feed every 5 minutes. Easy but, still need the backend working
+[x] 19. Setup the backend job queue and run every 5 minutes for each feed
+[x] 20. Extract core feed parsing logic outside of the Command so the sidebar can use it
 
 
 ### Sidebar
@@ -81,5 +112,7 @@
 2.
 
 # Someday
-1. On main sidebar, add last updated to each feed
+[x] 1. On main sidebar, add last updated to each feed
 2. Remove base temlates (like navigation.blade.php)
+3. Could I expand this into an RSS reader?!
+4. Perhaps a way to 'rank' a potential listing? Put this in the 'LATER' category

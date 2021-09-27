@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\User\Feed;
+namespace App\Http\Livewire\Feed;
 
 use App\Models\Feed;
 use Livewire\Component;
+
+// TODO: REFACTOR!
 
 class Create extends Component
 {

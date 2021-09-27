@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Actions\FetchFeedListings;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class feed extends Model
 {
@@ -15,17 +18,22 @@ class feed extends Model
         'checked_at' => 'datetime',
     ];
 
-    public function listings()
+    public function fetchListings(): self
+    {
+        return (new FetchFeedListings($this))->fetch();
+    }
+
+    public function listings(): HasMany
     {
         return $this->hasMany(Listing::class);
     }
 
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function lastChecked()
+    public function lastChecked(): string
     {
         if (! $this->checked_at) {
             return 'Never';
@@ -34,7 +42,7 @@ class feed extends Model
         return $this->checked_at->diffForHumans();
     }
 
-    public static function colors()
+    public static function colors(): array
     {
         return [
             'bg-black' => 'Black',

@@ -8,19 +8,26 @@
                             <div class="relative flex justify-end items-center">
                                 <button
                                     type="button"
-                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-red-500 focus:outline-none ml-2"
+                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-red-500 focus:outline-none ml-2 transition duration-300 ease-in-out transform hover:scale-125"
                                 >
-                                    <x-heroicon-o-trash wire:click="delete({{ $listing->id }})" class="flex-shrink-0 transition duration-300 ease-in-out transform hover:scale-125"/>
+                                    <x-heroicon-o-trash wire:click="delete({{ $listing->id }})" class="flex-shrink-0"/>
                                 </button>
 
-                                <a href="{{ $listing->url }}" target="__blank">
+                                <a wire:click="visit({{ $listing->id }})" href="{{ $listing->url }}" target="__blank">
                                     <button
                                         type="button"
-                                        class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-blue-500 focus:outline-none ml-2"
+                                        class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-green-500 focus:outline-none ml-1  transition duration-300 ease-in-out transform hover:scale-125"
                                     >
-                                        <x-heroicon-o-external-link class="flex-shrink-0 transition duration-300 ease-in-out transform hover:scale-125"/>
+                                        <x-heroicon-o-external-link class="flex-shrink-0"/>
                                     </button>
                                 </a>
+
+                                <button
+                                    type="button"
+                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-blue-500 focus:outline-none ml-1 transition duration-300 ease-in-out transform hover:scale-125"
+                                >
+                                    <x-heroicon-o-archive wire:click="archive({{ $listing->id }})" class="flex-shrink-0 "/>
+                                </button>
                             </div>
                         </td>
                         <td class="pr-6 pl-0 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
@@ -72,6 +79,11 @@
         </table>
     </div>
 
+    {{-- pagination --}}
+    <div class="m-4">
+        {{ $listings->links() }}
+    </div>
+
     {{-- view listing modal --}}
     <form>
         <x-modal.dialog wire:model.defer="showListingModal">
@@ -102,3 +114,13 @@
         </x-modal.dialog>
     </form>
 </div>
+
+@push('scripts')
+<script>
+    Livewire.on('pagination.change', event => {
+        // window.scrollTo(0,0)
+        var myDiv = document.getElementById('listings');
+        myDiv.scrollTop = 0;
+    })
+    </script>
+@endpush

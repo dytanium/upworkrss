@@ -6,6 +6,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -28,7 +29,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function feeds()
+    public function feeds(): HasMany
     {
         return $this->hasMany(Feed::class)->orderBy('title');
     }
@@ -38,7 +39,7 @@ class User extends Authenticatable
     //     return $this->hasMany(Listing::class)->orderBy('title');
     // }
 
-    public function avatarUrl()
+    public function avatarUrl(): string
     {
         return $this->profile_photo_path
             ? Storage::disk('avatars')->url($this->profile_photo_path)
