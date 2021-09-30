@@ -22,26 +22,21 @@ class Listing extends Model
     public const STATUS_NEW = 'new';
     public const STATUS_ARCHIVED = 'archived';
     public const STATUS_DELETED = 'deleted';
+    public const STATUS_VISITED = 'visited';
 
-    public function remove(): bool
+    public function markAs($status): bool
     {
         return $this->update([
-            'status' => Listing::STATUS_DELETED,
-        ]);
-    }
-
-    public function archive(): bool
-    {
-        return $this->update([
-            'status' => Listing::STATUS_ARCHIVED,
+            'status' => $status,
         ]);
     }
 
     public static function createFromParsedFeedListing(array $listing, Feed $feed): self
     {
-        return $feed->listings()->firstOrcreate([
+        return Listing::firstOrcreate([
             'url' => $listing['url'],
         ], [
+            'feed_id' => $feed->id,
             'user_id' => $feed->user_id,
             'title' => $listing['title'],
             'content' => $listing['content'],

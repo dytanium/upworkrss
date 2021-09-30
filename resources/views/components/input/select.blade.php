@@ -4,7 +4,6 @@
 
 <div class="flex">
     <select {{ $attributes->merge(['class' => '
-        mt-1
         block
         w-full
         pl-3

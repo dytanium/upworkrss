@@ -1,14 +1,17 @@
 <div class="block">
     <div class="align-middle inline-block min-w-full border-b border-gray-200">
+
+        @include('components.dashboard.search')
+
         <table class="min-w-full">
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse ($listings as $listing)
                     <tr wire:loading.class.delay="opacity-50" class="hover:bg-blue-50">
                         <td class="pr-2">
-                            <div class="relative flex justify-end items-center">
+                            <div class="flex justify-end items-center">
                                 <button
                                     type="button"
-                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-red-500 focus:outline-none ml-2 transition duration-300 ease-in-out transform hover:scale-125"
+                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-red-500 focus:outline-none ml-2"
                                 >
                                     <x-heroicon-o-trash wire:click="delete({{ $listing->id }})" class="flex-shrink-0"/>
                                 </button>
@@ -16,7 +19,7 @@
                                 <a wire:click="visit({{ $listing->id }})" href="{{ $listing->url }}" target="__blank">
                                     <button
                                         type="button"
-                                        class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-green-500 focus:outline-none ml-1  transition duration-300 ease-in-out transform hover:scale-125"
+                                        class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-green-500 focus:outline-none ml-1"
                                     >
                                         <x-heroicon-o-external-link class="flex-shrink-0"/>
                                     </button>
@@ -24,7 +27,7 @@
 
                                 <button
                                     type="button"
-                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-blue-500 focus:outline-none ml-1 transition duration-300 ease-in-out transform hover:scale-125"
+                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-blue-500 focus:outline-none ml-1"
                                 >
                                     <x-heroicon-o-archive wire:click="archive({{ $listing->id }})" class="flex-shrink-0 "/>
                                 </button>
@@ -80,9 +83,13 @@
     </div>
 
     {{-- pagination --}}
-    <div class="m-4">
+<div class="bg-gray-100 sticky bottom-0 left-0 space-y-4 w-full p-4 border-t-2">
+    <div>
         {{ $listings->links() }}
     </div>
+</div>
+
+
 
     {{-- view listing modal --}}
     <form>
@@ -114,13 +121,3 @@
         </x-modal.dialog>
     </form>
 </div>
-
-@push('scripts')
-<script>
-    Livewire.on('pagination.change', event => {
-        // window.scrollTo(0,0)
-        var myDiv = document.getElementById('listings');
-        myDiv.scrollTop = 0;
-    })
-    </script>
-@endpush

@@ -18,32 +18,45 @@ class Dashboard extends Component
 
     public Listing $viewListing;
 
+    public $filters = [
+        'search' => '',
+        'feed' => '',
+        'status' => Listing::STATUS_NEW,
+    ];
+
     protected $listeners = ['feed:refresh' => '$refresh'];
+
+    public function updatedFilters()
+    {
+        $this->resetPage();
+
+        $this->dispatchBrowserEvent('pagination-change');
+    }
 
     public function visit(Listing $listing): bool
     {
-        return $listing->archive();
+        return $listing->markAs(Listing::STATUS_VISITED);
     }
 
     public function delete(Listing $listing): bool
     {
-        return $listing->remove();
+        return $listing->markAs(Listing::STATUS_DELETED);
     }
 
     public function archive(Listing $listing): bool
     {
-        return $listing->archive();
+        return $listing->markAs(Listing::STATUS_ARCHIVED);
     }
 
     public function getRowsQueryProperty(): Builder
     {
-        // $listings = Listing::where('user_id', auth()->user()->id)->where('status', Listing::STATUS_NEW)->orderBy('local_datetime', 'desc')->get();
-
         $query = Listing::query()
             ->where('user_id', auth()->user()->id)
-            ->where('status', Listing::STATUS_NEW)
+            ->where('status', $this->filters['status'])
 
-            ->orderBy('local_datetime', 'desc');
+            ->when($this->filters['feed'], fn($query, $feedId) => $query->where('feed_id', $feedId))
+            ->when($this->filters['search'], fn($query, $search) => $query->where('title', 'like', '%' . $search . '%'))
+
             // ->when($this->filters['status'], fn($query, $status) => $query->where('status', $status))
             // ->when($this->filters['amount-min'], fn($query, $amount) => $query->where('amount', '>=', $amount))
             // ->when($this->filters['amount-max'], fn($query, $amount) => $query->where('amount', '<=', $amount))
@@ -51,11 +64,14 @@ class Dashboard extends Component
             // ->when($this->filters['date-max'], fn($query, $date) => $query->where('date', '<=', Carbon::parse($date)))
             // ->when($this->filters['search'], fn($query, $search) => $query->where('title', 'like', '%' . $search . '%'));
 
+            ->orderBy('local_datetime', 'desc');
+
         return $this->applySorting($query);
     }
 
     public function getRowsProperty()
     {
+        // dd($this->applyPagination($this->rowsQuery));
         // return $this->cache(function () {
         return $this->applyPagination($this->rowsQuery);
         // });

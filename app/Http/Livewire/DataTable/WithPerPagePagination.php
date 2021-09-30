@@ -22,6 +22,6 @@ trait WithPerPagePagination
 
     public function applyPagination($query)
     {
-        return $query->paginate($this->perPage);
+        return $query->paginate($this->perPage)->onEachSide(1);
     }
 }

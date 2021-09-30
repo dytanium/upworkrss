@@ -70,7 +70,7 @@
                                 </span>
                             @else
                                 <button
-                                    @click="$dispatch('paginationchange')"
+                                    @click="$dispatch('pagination-change')"
                                     wire:click="previousPage('{{ $paginator->getPageName() }}')"
                                     dusk="previousPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}.after"
                                     rel="prev"
@@ -103,6 +103,7 @@
                                             </span>
                                         @else
                                             <button
+                                                @click="$dispatch('pagination-change')"
                                                 wire:click="gotoPage({{ $page }}, '{{ $paginator->getPageName() }}')"
                                                 class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
                                                 aria-label="{{ __('Go to page :page', ['page' => $page]) }}"
@@ -119,6 +120,7 @@
                             {{-- Next Page Link --}}
                             @if ($paginator->hasMorePages())
                                 <button
+                                    @click="$dispatch('pagination-change')"
                                     wire:click="nextPage('{{ $paginator->getPageName() }}')"
                                     dusk="nextPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}.after"
                                     rel="next"
