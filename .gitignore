@@ -13,6 +13,6 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-*.md
-golf.md
-notes.md
+/*.md
+/golf.md
+/notes.md
