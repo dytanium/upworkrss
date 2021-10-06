@@ -1,14 +1,13 @@
 <div class="sticky top-0 left-0 space-y-4 w-full">
-    <div class="bg-gray-100 p-4 shadow-md space-x-4 space-y-4">
+    <div class="bg-gray-100 p-4 space-y-4">
         <div class="flex justify-between space-x-4">
-
             {{-- search box --}}
-            <div class="flex-grow items-center">
+            <div class="flex-grow">
                 <x-input.text wire:model.debounce.300ms="filters.search" placeholder="Search Listings" />
             </div>
 
             {{-- feed selector --}}
-            <div class="flex space-x-2 items-center">
+            <div class="flex space-x-2 items-center w-56">
                 <div
                     x-data="{
                         open: false,
@@ -44,6 +43,7 @@
                     </div>
 
                     <div
+                        x-cloak
                         x-show="open"
                         x-transition:enter="transition ease-out duration-100"
                         x-transition:enter-start="transform opacity-0 scale-95"
@@ -107,36 +107,67 @@
                     <option value="25">25</option>
                     <option value="50">50</option>
                 </x-input.select>
-
-                {{-- <x-input.group borderless paddingless for="perPage" label="Per Page">
-                    <x-input.select wire:model="perPage" id="perPage">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                    </x-input.select>
-                </x-input.group> --}}
-                {{-- <livewire:import-transactions /> --}}
-
-                {{-- bulk actions --}}
-                {{-- <x-dropdown label="Bulk Actions">
-                    <x-dropdown.item type="button" wire:click="exportSelected" class="flex items-center space-x-2">
-                        <x-icon.download class="text-cool-gray-400" /><span>Export</span>
-                    </x-dropdown.item>
-
-                    <x-dropdown.item type="button" wire:click="$toggle('showDeleteModal')" class="flex items-center space-x-2">
-                        <x-icon.trash class="text-cool-gray-400" /><span>Delete</span>
-                    </x-dropdown.item>
-                </x-dropdown>
-
-                <x-button.primary wire:click="create"><x-icon.plus />New</x-button.primary> --}}
-                {{-- bulk menu --}}
             </div>
         </div>
 
-        <div class="flex justify-between space-x-4">
+        {{-- bulk actions --}}
+        <div class="flex justify-between items-center space-x-4">
+            <div class="flex-shrink-0">
 
+                {{-- select all on page --}}
+                <x-input.checkbox wire:model="selectPage" />
 
+                @if (count($selected))
+                    {{-- delete selected --}}
+                    <button wire:click="deleteSelected" class="transition duration-300 ease-in-out transform hover:scale-125">
+                        <x-heroicon-o-trash class="inline text-gray-400 hover:text-red-500 ml-3"/>
+                    </button>
+
+                    {{-- archive selected --}}
+                    <button wire:click="archiveSelected" class="transition duration-300 ease-in-out transform hover:scale-125">
+                        <x-heroicon-o-archive class="inline text-gray-400 hover:text-blue-500 ml-2"/>
+                    </button>
+                @endif
+            </div>
+
+            {{-- selection status --}}
+            <div class="flex-grow text-sm text-gray-600">
+                @if ($selected)
+                    <span wire:key="row-message">
+                        @unless ($selectAll)
+                            <div>
+                                <span>
+                                    Selected <strong>{{ count($selected) }}</strong> {{ Str::plural('listing', count($selected)) }}
+                                    <a href="#" wire:click.prevent="selectAll" class="ml-1 text-blue-400">
+                                        Select all <strong>{{ $listings->total() }}</strong>
+                                    </a>
+                                </span>
+                                <span>
+                                    |
+                                    <a href="#" wire:click.prevent="resetSelected" class="ml-1 text-blue-400">
+                                        Deselect
+                                    </a>
+                                </span>
+                            </div>
+                        @else
+                            <span>Selected all <strong>{{ $listings->total() }}</strong> listings</span>
+                            <span>
+                                |
+                                <a href="#" wire:click.prevent="resetSelected" class="ml-1 text-blue-400">
+                                    Deselect
+                                </a>
+                            </span>
+                        @endif
+
+                    </span>
+
+                @endif
+            </div>
+
+            {{-- pagination --}}
+            <div class="flex-shrink-0 justify-self-end">
+                {{ $listings->links() }}
+            </div>
         </div>
-
     </div>
 </div>

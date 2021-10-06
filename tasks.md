@@ -5,9 +5,11 @@
 * Bulk status update
 
 # Dashboard
-- Continue working on top and bottom menus
+- Redo the pagination design - make it like Gmail
+- fire the browser event from the pagination code? rather than a wire:click and an @click
+- Continue working on top menu
 [x] - Can we put the bottom paginator at the true bottom of the page?? - NO
-- Cloak the two dropdown menus - theres a flicker on page reload
+[x] - Cloak the two dropdown menus - theres a flicker on page reload
 - Need to add a status icon/badge somewhere - peep the livewire page with the transaction status
 - Sketch the bulk UI and how it will work
 - Begin the bulk UI stuff - use flex, flex-grow, etc
@@ -38,6 +40,7 @@
 [x] 1. New component and route
 2.
 
+new git: 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
 
 
 

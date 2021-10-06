@@ -37,6 +37,7 @@
                 </div>
 
                 <div
+                    x-cloak
                     x-show="open"
                     x-transition:enter="transition ease-out duration-100"
                     x-transition:enter-start="transform opacity-0 scale-95"

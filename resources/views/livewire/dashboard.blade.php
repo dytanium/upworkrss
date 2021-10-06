@@ -6,7 +6,10 @@
         <table class="min-w-full">
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse ($listings as $listing)
-                    <tr wire:loading.class.delay="opacity-50" class="hover:bg-blue-50">
+                    <tr wire:loading.class.delay.long="opacity-50" class="hover:bg-blue-50">
+                        <td class="pl-4">
+                            <x-input.checkbox wire:model="selected" value="{{ $listing->id }}" />
+                        </td>
                         <td class="pr-2">
                             <div class="flex justify-end items-center">
                                 <button
@@ -16,31 +19,32 @@
                                     <x-heroicon-o-trash wire:click="delete({{ $listing->id }})" class="flex-shrink-0"/>
                                 </button>
 
+                                <button
+                                    type="button"
+                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-blue-500 focus:outline-none"
+                                >
+                                    <x-heroicon-o-archive wire:click="archive({{ $listing->id }})" class="flex-shrink-0 "/>
+                                </button>
+
                                 <a wire:click="visit({{ $listing->id }})" href="{{ $listing->url }}" target="__blank">
                                     <button
                                         type="button"
-                                        class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-green-500 focus:outline-none ml-1"
+                                        class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-green-500 focus:outline-none"
                                     >
                                         <x-heroicon-o-external-link class="flex-shrink-0"/>
                                     </button>
                                 </a>
-
-                                <button
-                                    type="button"
-                                    class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full hover:text-blue-500 focus:outline-none ml-1"
-                                >
-                                    <x-heroicon-o-archive wire:click="archive({{ $listing->id }})" class="flex-shrink-0 "/>
-                                </button>
                             </div>
                         </td>
-                        <td class="pr-6 pl-0 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
+                        <td class="pr-6 pl-0 py-2 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
                             <div class="flex items-center space-x-3 lg:pl-2">
                                 <div class="flex-shrink-0 w-2.5 h-2.5 rounded-full {{ $listing->feed->color }}" aria-hidden="true"></div>
+
                                 <a wire:click.prevent="showListing({{ $listing->id }})" href="#" class="truncate hover:text-gray-600">
-                                    <p>
-                                        {{ $listing->title }}
-                                    </p>
+                                    <p>{{ $listing->title }}</p>
+
                                     <p class="text-sm text-gray-500 truncate">{{ strip_tags($listing->description) }}</p>
+
                                     <p class="text-sm mt-1">
                                         @if (isset($listing->budget['type']) && $listing->budget['type'] === 'fixed')
                                             <x-badge color="dark-green">
@@ -69,7 +73,7 @@
                                 </a>
                             </div>
                         </td>
-                        <td class="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
+                        <td class="hidden md:table-cell px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
                             {{ $listing->local_datetime->diffForHumans() }}
                         </td>
                     </tr>
@@ -81,15 +85,6 @@
             </tbody>
         </table>
     </div>
-
-    {{-- pagination --}}
-<div class="bg-gray-100 sticky bottom-0 left-0 space-y-4 w-full p-4 border-t-2">
-    <div>
-        {{ $listings->links() }}
-    </div>
-</div>
-
-
 
     {{-- view listing modal --}}
     <form>

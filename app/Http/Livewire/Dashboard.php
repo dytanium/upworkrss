@@ -2,17 +2,17 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use App\Models\Listing;
 use Livewire\Component;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Livewire\DataTable\WithSorting;
+use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
-
-// TODO: REFACTOR
 
 class Dashboard extends Component
 {
-    use WithPerPagePagination, WithSorting;
+    use WithBulkActions, WithPerPagePagination, WithSorting;
 
     public bool $showListingModal = false;
 
@@ -25,6 +25,20 @@ class Dashboard extends Component
     ];
 
     protected $listeners = ['feed:refresh' => '$refresh'];
+
+    public function archiveSelected()
+    {
+        $this->selectedRowsQuery->get()->map->markAs(Listing::STATUS_ARCHIVED);
+
+        $this->resetSelected();
+    }
+
+    public function deleteSelected()
+    {
+        $this->selectedRowsQuery->get()->map->markAs(Listing::STATUS_DELETED);
+
+        $this->resetSelected();
+    }
 
     public function updatedFilters()
     {
@@ -57,13 +71,6 @@ class Dashboard extends Component
             ->when($this->filters['feed'], fn($query, $feedId) => $query->where('feed_id', $feedId))
             ->when($this->filters['search'], fn($query, $search) => $query->where('title', 'like', '%' . $search . '%'))
 
-            // ->when($this->filters['status'], fn($query, $status) => $query->where('status', $status))
-            // ->when($this->filters['amount-min'], fn($query, $amount) => $query->where('amount', '>=', $amount))
-            // ->when($this->filters['amount-max'], fn($query, $amount) => $query->where('amount', '<=', $amount))
-            // ->when($this->filters['date-min'], fn($query, $date) => $query->where('date', '>=', Carbon::parse($date)))
-            // ->when($this->filters['date-max'], fn($query, $date) => $query->where('date', '<=', Carbon::parse($date)))
-            // ->when($this->filters['search'], fn($query, $search) => $query->where('title', 'like', '%' . $search . '%'));
-
             ->orderBy('local_datetime', 'desc');
 
         return $this->applySorting($query);
@@ -77,8 +84,6 @@ class Dashboard extends Component
         // });
     }
 
-
-
     public function showListing(Listing $listing)
     {
         $this->viewListing = $listing;
@@ -88,8 +93,6 @@ class Dashboard extends Component
 
     public function render()
     {
-
-
         return view('livewire.dashboard', [
             'listings' => $this->rows,
         ]);
