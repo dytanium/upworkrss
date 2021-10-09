@@ -19,7 +19,6 @@ class Listing extends Model
         'local_datetime' => 'datetime',
     ];
 
-
     public const STATUS_NEW = 'new';
     public const STATUS_ARCHIVED = 'archived';
     public const STATUS_DELETED = 'deleted';

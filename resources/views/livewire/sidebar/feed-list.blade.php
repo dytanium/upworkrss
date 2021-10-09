@@ -1,13 +1,28 @@
-<div>
-    <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
+<div
+    x-data="{
+        refreshing: false,
+
+        refreshFeeds: async function() {
+            this.refreshing = true
+
+            let result = await $wire.refreshAll()
+
+            this.refreshing = false
+        },
+    }"
+>
+    <div class="flex items-center justify-between flex-wrap sm:flex-nowrap content-center">
         <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
             Your Feeds
         </h3>
 
         <div>
-            <x-link href="{{ route('feed.create') }}">
-                <x-heroicon-o-plus-sm/>
-            </x-link>
+            <button
+                @click="refreshFeeds"
+                class="text-xs text-blue-500 mr-2"
+            >
+                Refresh All
+            </button>
         </div>
     </div>
 
@@ -22,5 +37,11 @@
                 </li>
             @endforelse
         </ul>
+    </div>
+
+    <div class="flex items-center justify-end flex-wrap sm:flex-nowrap mt-2 mr-2">
+        <a class="text-blue-500" href="{{ route('feed.create') }}">
+            <x-heroicon-o-plus-sm/>
+        </a>
     </div>
 </div>

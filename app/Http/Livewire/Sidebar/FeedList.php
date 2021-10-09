@@ -8,6 +8,15 @@ class FeedList extends Component
 {
     public $feeds;
 
+    public function refreshAll()
+    {
+        foreach ($this->feeds as $feed) {
+            $feed->fetchListings();
+        }
+
+        $this->emit('feed:refresh');
+    }
+
     public function mount()
     {
         $this->feeds = auth()->user()->feeds;

@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <!-- Navigation -->
+            <!-- navigation -->
             <nav class="px-3 mt-6">
                 <div class="space-y-1">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
@@ -78,6 +78,29 @@
                     <x-nav-link href="#" :active="request()->routeIs('todo')">
                         <x-heroicon-o-briefcase class="text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
                         Proposals
+                    </x-nav-link>
+                </div>
+
+                {{-- filter links --}}
+                <div class="mt-8">
+                    <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Quick Links
+                    </h3>
+
+                    <x-nav-link wire:click.prevent="$emit('filterStatus', 'new')" href="#">
+                        <x-heroicon-o-inbox class="text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
+                        <span>Inbox</span>
+                        <span class="bg-gray-200 text-gray-600 ml-auto inline-block py-0.5 px-3 text-xs rounded-full">
+                            {{ $inboxCount }}
+                        </span>
+                    </x-nav-link>
+
+                    <x-nav-link wire:click.prevent="$emit('filterStatus', 'archived')" href="#">
+                        <x-heroicon-o-archive class="text-gray-500 group-hover:text-gray-500 h-6 w-6 mr-3"/>
+                        <span>Archives</span>
+                        <span class="bg-gray-200 text-gray-600 ml-auto inline-block py-0.5 px-3 text-xs rounded-full">
+                            {{ $archivesCount }}
+                        </span>
                     </x-nav-link>
                 </div>
 

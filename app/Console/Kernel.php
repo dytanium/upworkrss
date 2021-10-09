@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // TODO: set to run for all users, for now, run for feeds for my user account
-        $schedule->command(FetchFeedListingsForUser::class, [1])->hourly();
+        $schedule->command(FetchFeedListingsForUser::class, [1])->everyTenMinutes();
     }
 
     /**

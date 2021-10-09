@@ -10,6 +10,10 @@ class Feed extends Component
 {
     public RssFeed $feed;
 
+    protected $listeners = [
+        'feed:refresh' => '$refresh',
+    ];
+
     public function refresh(RssFeed $feed)
     {
         $this->feed->fetchListings()->fresh();

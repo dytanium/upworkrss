@@ -1,9 +1,32 @@
 <div class="sticky top-0 left-0 space-y-4 w-full">
     <div class="bg-gray-100 p-4 space-y-4">
         <div class="flex justify-between space-x-4">
+
             {{-- search box --}}
             <div class="flex-grow">
-                <x-input.text wire:model.debounce.300ms="filters.search" placeholder="Search Listings" />
+                <div class="flex rounded-md shadow-sm">
+                    <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <x-heroicon-s-search class="text-gray-400"/>
+                        </div>
+                        <input
+                            wire:model.debounce.300ms="filters.search"
+                            type="text"
+                            id="search"
+                            class="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-10 sm:text-sm border-gray-300"
+                            placeholder="Search Listings"
+                        >
+                    </div>
+                    <button
+                        wire:click="$set('filters.search', '')"
+                        type="button"
+                        class="group -ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 border-l-0 text-sm font-medium rounded-r-md bg-white text-gray-700 focus:outline-none"
+                    >
+                        <x-heroicon-s-x class="text-gray-400 group-hover:text-gray-600"/>
+                    </button>
+                </div>
+
+                {{-- <x-input.text wire:model.debounce.300ms="filters.search" placeholder="Search Listings" /> --}}
             </div>
 
             {{-- feed selector --}}
@@ -61,7 +84,7 @@
                             <a
                                 @click="feedId = ''; feedColor = 'bg-blue-800'; feedName = 'All Feeds'; open = false"
                                 href="#"
-                                class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
+                                class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 border-b border-gray-200"
                             >
                                 <span class="w-3 h-3 mr-4 bg-blue-800 rounded-full" aria-hidden="true"></span>
                                 <span class="truncate">
@@ -91,10 +114,10 @@
                 <x-input.label for="status" label="Show:"/>
 
                 <x-input.select wire:model="filters.status" id="status">
-                    <option value="new">New Listings</option>
-                    <option value="archived">Archived Listings</option>
-                    <option value="visited">Visited Listings</option>
-                    <option value="deleted">Deleted Listings</option>
+                    <option value="new">Inbox</option>
+                    <option value="archived">Archived</option>
+                    <option value="visited">Visited</option>
+                    <option value="deleted">Deleted</option>
                 </x-input.select>
             </div>
 
@@ -113,34 +136,59 @@
         {{-- bulk actions --}}
         <div class="flex justify-between items-center space-x-4">
             <div class="flex-shrink-0">
+                <span class="relative z-0 inline-flex shadow-sm rounded-md sm:shadow-none sm:space-x-3">
+                    <span class="inline-flex sm:shadow-sm">
 
-                {{-- select all on page --}}
-                <x-input.checkbox wire:model="selectPage" />
+                        {{-- select page --}}
+                        <button
+                            wire:click="$toggle('selectPage')"
+                            type="button"
+                            class="group relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-900 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-50"
+                            @if (! $listings->count()) disabled @endif
+                        >
+                            <x-heroicon-o-arrow-circle-down class="mr-2.5 h-5 w-5 text-gray-400 group-hover:text-gray-700"/>
+                            <span>Select All</span>
+                        </button>
 
-                @if (count($selected))
-                    {{-- delete selected --}}
-                    <button wire:click="deleteSelected" class="transition duration-300 ease-in-out transform hover:scale-125">
-                        <x-heroicon-o-trash class="inline text-gray-400 hover:text-red-500 ml-3"/>
-                    </button>
+                        {{-- trash --}}
+                        <button
+                            wire:click="deleteSelected"
+                            type="button"
+                            class="group hidden sm:inline-flex -ml-px relative items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-900 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-50"
+                            @if (! count($selected)) disabled @endif
+                        >
+                            <x-heroicon-o-trash class="mr-2.5 h-5 w-5 text-gray-400 group-hover:text-red-500"/>
+                            <span>Trash</span>
+                        </button>
 
-                    {{-- archive selected --}}
-                    <button wire:click="archiveSelected" class="transition duration-300 ease-in-out transform hover:scale-125">
-                        <x-heroicon-o-archive class="inline text-gray-400 hover:text-blue-500 ml-2"/>
-                    </button>
-                @endif
+                        {{-- archive --}}
+                        <button
+                            wire:click="archiveSelected"
+                            type="button"
+                            class="group hidden sm:inline-flex -ml-px relative items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-900 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-50"
+                            @if (! count($selected)) disabled @endif
+                        >
+                            <x-heroicon-o-archive class="mr-2.5 h-5 w-5 text-gray-400 group-hover:text-blue-500"/>
+                            <span>Archive</span>
+                        </button>
+                    </span>
+                </span>
             </div>
 
             {{-- selection status --}}
             <div class="flex-grow text-sm text-gray-600">
                 @if ($selected)
-                    <span wire:key="row-message">
+                    <span wire:key="status-message">
                         @unless ($selectAll)
                             <div>
                                 <span>
                                     Selected <strong>{{ count($selected) }}</strong> {{ Str::plural('listing', count($selected)) }}
-                                    <a href="#" wire:click.prevent="selectAll" class="ml-1 text-blue-400">
-                                        Select all <strong>{{ $listings->total() }}</strong>
-                                    </a>
+
+                                    @if (count($selected) < $listings->total())
+                                        <a href="#" wire:click.prevent="selectAll" class="ml-1 text-blue-400">
+                                            Select all <strong>{{ $listings->total() }}</strong>
+                                        </a>
+                                    @endif
                                 </span>
                                 <span>
                                     |
@@ -158,9 +206,7 @@
                                 </a>
                             </span>
                         @endif
-
                     </span>
-
                 @endif
             </div>
 

@@ -7,7 +7,7 @@
             <a href="{{ route('feed.view', $feed) }}" class="text-gray-900 font-medium hover:text-gray-600">{{ $feed->title }}</a>
 
             {{-- poll every 10 minutes to update the 'checked' timestamp --}}
-            <p wire:poll.600s class="text-gray-500 text-xs">Checked: {{ $feed->lastChecked() }}</p>
+            <p wire:poll.keep-alive.600s class="text-gray-500 text-xs">Checked: {{ $feed->lastChecked() }}</p>
         </div>
 
         <div class="flex-shrink-0 pr-2">
@@ -17,7 +17,10 @@
                 class="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none"
             >
                 {{-- refresh button --}}
-                <span wire:loading.remove wire:target="refresh({{ $feed->id }})">
+                <span
+                    wire:loading.remove wire:target="refresh({{ $feed->id }})"
+                    :class="refreshing ? 'animate-spin text-blue-600' : ''"
+                >
                     <x-heroicon-o-refresh class="flex-shrink-0 inline"/>
                 </span>
 

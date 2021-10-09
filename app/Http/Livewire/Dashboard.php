@@ -24,13 +24,23 @@ class Dashboard extends Component
         'status' => Listing::STATUS_NEW,
     ];
 
-    protected $listeners = ['feed:refresh' => '$refresh'];
+    protected $listeners = [
+        'feed:refresh' => '$refresh',
+        'filterStatus' => 'setStatusFilter',
+    ];
+
+    public function setStatusFilter($status)
+    {
+        $this->filters['status'] = $status;
+    }
 
     public function archiveSelected()
     {
         $this->selectedRowsQuery->get()->map->markAs(Listing::STATUS_ARCHIVED);
 
         $this->resetSelected();
+
+        $this->emit('listing:refresh');
     }
 
     public function deleteSelected()
@@ -38,6 +48,8 @@ class Dashboard extends Component
         $this->selectedRowsQuery->get()->map->markAs(Listing::STATUS_DELETED);
 
         $this->resetSelected();
+
+        $this->emit('listing:refresh');
     }
 
     public function updatedFilters()
@@ -47,19 +59,25 @@ class Dashboard extends Component
         $this->dispatchBrowserEvent('pagination-change');
     }
 
-    public function visit(Listing $listing): bool
+    public function visit(Listing $listing)
     {
-        return $listing->markAs(Listing::STATUS_VISITED);
+        $listing->markAs(Listing::STATUS_VISITED);
+
+        $this->emit('listing:refresh');
     }
 
-    public function delete(Listing $listing): bool
+    public function delete(Listing $listing)
     {
-        return $listing->markAs(Listing::STATUS_DELETED);
+        $listing->markAs(Listing::STATUS_DELETED);
+
+        return $this->emit('listing:refresh');
     }
 
-    public function archive(Listing $listing): bool
+    public function archive(Listing $listing)
     {
-        return $listing->markAs(Listing::STATUS_ARCHIVED);
+        $listing->markAs(Listing::STATUS_ARCHIVED);
+
+        $this->emit('listing:refresh');
     }
 
     public function getRowsQueryProperty(): Builder
@@ -78,7 +96,6 @@ class Dashboard extends Component
 
     public function getRowsProperty()
     {
-        // dd($this->applyPagination($this->rowsQuery));
         // return $this->cache(function () {
         return $this->applyPagination($this->rowsQuery);
         // });

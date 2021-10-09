@@ -1,3 +1,37 @@
+#
+[x] - Add an empty message when no listings are shown
+[x] - New status: 'inbox'. Rename all 'new' to Inbox
+[x] - Add new menu on the left: inbox, archives, visited with counts for each
+[x] -- On click, set the filter to that status
+[x] - Modify buttons for single listings and bulk actions depending on the status selected
+[x] -- For inbox: have archive/delete only
+[x] -- For archive: have delete only
+[x] -- For visited: have delete/archive only
+[x] - Add a little line under the 'All Feeds' list item
+[x] - Always show the bulk actions, even when nothing is selected
+[x] - When clicking the bulk check select, there is a bug -> fix it
+[x] - Add a 'refresh all' button somewhere on the feed list. Put where the Add button is, then move add button to the bottom
+[x] - When refresh all is clicked, do some kind of loading state
+[x] - For single listings: make the action buttons larger
+[x] - Turn bulk icons into buttons - see TailwindUI for inspiration - the inbox demo
+[x] - Add an x icon in the search box and have it erase any search text
+- Universal load when refresh is clicked? like in the middle of the main table
+- Remove status dropdown
+- Add Deleted and Visited to the left-side menu
+- Rename left-side menu to 'Folders' or something similar
+- New filter: fixed cost, hourly, all
+- If hourly or fixed: new filter: amount
+- Search should look at keywords too
+- Search should look at description too
+- For single listings: unlink the title, description, keywords from opening the modal
+- Work on the modal
+- Work on the Feed index page
+- Begin work on the Proposals feature
+- Add keyboard shortcuts so you can be mouse-free for going through the inbox, archives, etc
+- Put the add feed into a sliding div on the right side (or a modal?)
+- Refactor the UI: draw on paper, know what interactions we want. use a single top-level component? or communicate by events?
+
+
 # Next Steps
 * Echo
 * Refactor dashboard
@@ -5,18 +39,18 @@
 * Bulk status update
 
 # Dashboard
-- Redo the pagination design - make it like Gmail
+[x] - Redo the pagination design - make it like Gmail
 - fire the browser event from the pagination code? rather than a wire:click and an @click
 - Continue working on top menu
 [x] - Can we put the bottom paginator at the true bottom of the page?? - NO
 [x] - Cloak the two dropdown menus - theres a flicker on page reload
 - Need to add a status icon/badge somewhere - peep the livewire page with the transaction status
-- Sketch the bulk UI and how it will work
-- Begin the bulk UI stuff - use flex, flex-grow, etc
-- Need a checkbox for each listing (for bulk actions)
-- Need a bulk status bar message thing somewhere
-- Need to 'select all' when seleting all, just like livewire and gmail do (basically select all of the query results)
-- Or better yet, build the pagination like gmail - a simple message with < >
+[x] - Sketch the bulk UI and how it will work
+[x] - Begin the bulk UI stuff - use flex, flex-grow, etc
+[x] - Need a checkbox for each listing (for bulk actions)
+[x] - Need a bulk status bar message thing somewhere
+[x] - Need to 'select all' when seleting all, just like livewire and gmail do (basically select all of the query results)
+[x] - Or better yet, build the pagination like gmail - a simple message with < >
 
 # Setup Echo
 * Setup a component on the front that adds an alert bar when there are new listings with an option to refresh. Don't refresh the entire dashboard component immediately - trap the number of new listings within this alert, then allow the user to refresh when needed
@@ -24,7 +58,7 @@
 
 
 # Dashboard
-* Begin to think about filter - to start with, add a feed filter, then a status filter
+[x] * Begin to think about filter - to start with, add a feed filter, then a status filter
 * Redesign the listing table. Need to scrap the HREF covering the title and description. I like the idea of the modal, so work on that too
 *  Work on listing modal
     * Add left/right arrors to the listing modal
@@ -132,4 +166,8 @@ new git: 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
 2. Remove base temlates (like navigation.blade.php)
 3. Could I expand this into an RSS reader?!
 4. Perhaps a way to 'rank' a potential listing? Put this in the 'LATER' category
-5. Add pagination to top and try to stickyify it
+[x] 5. Add pagination to top and try to stickyify it
+6. Rename all 'new' listing status to 'inbox'
+7. Bring in AI somehow
+8. Build parsing filter : if listing.description has 'wordpress' then set status to 'new_status_name_here'
+9. Change 'selected' to a collection only - currently poses as an array and sometimes as a collection. allows us to add bg color when a row is selected.
